@@ -18,7 +18,7 @@ export default function MarketsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [hasMore, setHasMore] = useState(true);
 
-  const observer = useRef<IntersectionObserver>();
+  const observer = useRef<IntersectionObserver | null>(null);
 
   const loadMoreMarkets = async () => {
     if (loadingMore || !hasMore) return;

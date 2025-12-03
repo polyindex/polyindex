@@ -248,7 +248,7 @@ export default function HomePage() {
                   <IndexCard
                     key={index.id}
                     index={index}
-                    showControls={filter === 'myindexs' && index.createdBy === user?.id}
+                    showControls={filter === 'myindexes' && index.createdBy === user?.id}
                     onStarChange={(indexId, newStarCount, isStarred) => {
                       // Update the index in the state with new star info
                       setIndexes(indexes.map(e =>

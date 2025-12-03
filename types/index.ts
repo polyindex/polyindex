@@ -13,7 +13,22 @@ export interface PolymarketMarket {
   outcomePrices: number[];
 }
 
-// Index types
+// Index types (Database schema - snake_case)
+export interface IndexRow {
+  id: string;
+  name: string;
+  description: string | null;
+  created_by: string;
+  created_by_username: string;
+  is_public: boolean;
+  category: string | null;
+  markets: string[] | null;
+  filters: IndexFilters | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// Index types (API/Frontend - camelCase)
 export interface Index {
   id: string;
   name: string;
@@ -55,7 +70,7 @@ export interface User {
 }
 
 // Database types
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       users: {
@@ -64,10 +79,26 @@ export interface Database {
         Update: Partial<Omit<User, 'id' | 'createdAt'>>;
       };
       indexes: {
-        Row: Index;
-        Insert: Omit<Index, 'id' | 'createdAt' | 'updatedAt'>;
-        Update: Partial<Omit<Index, 'id' | 'createdAt' | 'updatedAt'>>;
+        Row: IndexRow;
+        Insert: Omit<IndexRow, 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Omit<IndexRow, 'id' | 'created_at' | 'updated_at'>>;
+      };
+      stars: {
+        Row: {
+          id: string;
+          user_id: string;
+          index_id: string;
+          created_at: string;
+        };
+        Insert: {
+          user_id: string;
+          index_id: string;
+        };
+        Update: never;
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
   };
-}
+};

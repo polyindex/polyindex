@@ -31,10 +31,10 @@ export async function POST(
     }
 
     // Can star public indexes or your own private indexes (created_by could be null for system indexes)
-    if (!index.is_public && index.created_by !== user.id) {
+    if (!(index as any).is_public && (index as any).created_by !== user.id) {
       console.log('[Star API POST] Permission denied:', {
-        isPublic: index.is_public,
-        createdBy: index.created_by,
+        isPublic: (index as any).is_public,
+        createdBy: (index as any).created_by,
         userId: user.id,
       });
       return NextResponse.json(
@@ -60,8 +60,8 @@ export async function POST(
 
     // Add star
     console.log('[Star API POST] Inserting star:', { indexId, userId: user.id });
-    const { error: insertError } = await supabaseAdmin
-      .from('stars')
+    const { error: insertError } = await (supabaseAdmin
+      .from('stars') as any)
       .insert({
         index_id: indexId,
         user_id: user.id,

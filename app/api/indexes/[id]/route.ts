@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from '@/lib/supabase/auth-helpers';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { IndexRow } from '@/types';
 
 export async function GET(
   request: NextRequest,
@@ -21,18 +22,19 @@ export async function GET(
     }
 
     // Transform to camelCase
+    const indexData = index as any;
     const transformedIndex = {
-      id: index.id,
-      name: index.name,
-      description: index.description,
-      createdBy: index.created_by,
-      createdByUsername: index.created_by_username,
-      isPublic: index.is_public,
-      category: index.category,
-      markets: index.markets || [],
-      filters: index.filters,
-      createdAt: index.created_at,
-      updatedAt: index.updated_at,
+      id: indexData.id,
+      name: indexData.name,
+      description: indexData.description,
+      createdBy: indexData.created_by,
+      createdByUsername: indexData.created_by_username,
+      isPublic: indexData.is_public,
+      category: indexData.category,
+      markets: indexData.markets || [],
+      filters: indexData.filters,
+      createdAt: indexData.created_at,
+      updatedAt: indexData.updated_at,
     };
 
     return NextResponse.json(transformedIndex);
@@ -64,13 +66,13 @@ export async function PUT(
       .eq('id', indexId)
       .single();
 
-    if (!index || index.created_by !== user.id) {
+    if (!index || (index as any).created_by !== user.id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     // Update Index
-    const { data, error } = await supabaseAdmin
-      .from('indexes')
+    const { data, error } = await (supabaseAdmin
+      .from('indexes') as any)
       .update({
         name,
         description,
@@ -121,14 +123,14 @@ export async function PATCH(
       .eq('id', indexId)
       .single();
 
-    if (!index || index.created_by !== user.id) {
+    if (!index || (index as any).created_by !== user.id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     // All users can make Indexes public (subscription removed)
 
-    const { data, error } = await supabaseAdmin
-      .from('indexes')
+    const { data, error } = await (supabaseAdmin
+      .from('indexes') as any)
       .update({ is_public: isPublic })
       .eq('id', indexId)
       .select()
@@ -169,7 +171,7 @@ export async function DELETE(
       .eq('id', indexId)
       .single();
 
-    if (!index || index.created_by !== user.id) {
+    if (!index || (index as any).created_by !== user.id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 

@@ -24,8 +24,8 @@ export async function GET(request: NextRequest) {
     // Upsert curated indexes into database so they can be starred
     for (const curatedIndex of curatedIndexes) {
       try {
-        await supabaseAdmin
-          .from('indexes')
+        await (supabaseAdmin
+          .from('indexes') as any)
           .upsert(
             {
               id: curatedIndex.id,
@@ -179,8 +179,8 @@ export async function POST(request: NextRequest) {
 
     // All users can make indexes public (subscription removed)
 
-    const { data, error } = await supabaseAdmin
-      .from('indexes')
+    const { data, error } = await (supabaseAdmin
+      .from('indexes') as any)
       .insert({
         name,
         description,

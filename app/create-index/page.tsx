@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { Navigation } from '@/components/Navigation';
@@ -8,7 +8,7 @@ import { Footer } from '@/components/Footer';
 import { PolymarketMarket } from '@/types';
 import { filterMarkets, getMarketCategories } from '@/lib/polymarket/client';
 
-export default function CreateIndexPage() {
+function CreateIndexContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get('edit');
@@ -608,6 +608,21 @@ export default function CreateIndexPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function CreateIndexPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+        </div>
+      </div>
+    }>
+      <CreateIndexContent />
+    </Suspense>
   );
 }
 
