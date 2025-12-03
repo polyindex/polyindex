@@ -59,9 +59,16 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">
               Cookies
             </h2>
-            <p>
-              We use cookies for authentication (NextAuth session) and to store your dark mode
-              preference. No tracking or analytics cookies are used.
+            <p className="mb-3">
+              We use cookies and local storage to improve your experience on our site. Here's what we use:
+            </p>
+            <ul className="space-y-2 list-disc list-inside">
+              <li><strong>Essential Cookies:</strong> Authentication cookies from Supabase to keep you logged in</li>
+              <li><strong>Preference Storage:</strong> Local storage to remember your cookie consent choice</li>
+              <li><strong>No Tracking:</strong> We do not use analytics, advertising, or tracking cookies</li>
+            </ul>
+            <p className="mt-3">
+              You can manage your cookie preferences at any time by clearing your browser cookies and refreshing the page to see the consent banner again.
             </p>
           </section>
 
